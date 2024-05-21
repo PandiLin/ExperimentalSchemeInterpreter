@@ -30,4 +30,8 @@ struct Env{
         copy.insert(entity, at: 0)
         return Env(entities: copy)
     }
+    
+    func extend(name: String, value: Any) -> Env{
+        self.extend(EnvEntities(name: name, value: value))
+    }
 }

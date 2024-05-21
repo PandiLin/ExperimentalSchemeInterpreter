@@ -18,29 +18,37 @@ enum ASTPattern {
     case number(Double)
     case lambdaExpr(LambdaExpr)
     case letExpr([(String, AST)], AST)
-    case failed(AST, String)
     case callExpr(AST, AST)
     case operatorExpr(String, AST, AST)
 }
 
-func convertAtom(_ str: String) -> ASTPattern{
+
+
+func convertAtom(_ str: String) ->  Result<ASTPattern, ASTParseError>{
     if let db = Double(str){
-        return ASTPattern.number(db)
+        return  .success(ASTPattern.number(db))
     }
     else{
-        return ASTPattern.symbol(str)
+        return  .success(ASTPattern.symbol(str))
     }
 }
 
-func convertToPatterns(_ ast: AST) -> ASTPattern{
+
+enum ASTParseError: Error{
+    case misformated(String, AST)
+    case unknownExpression(AST)
+}
+
+
+func convertToPatterns(_ ast: AST) -> Result<ASTPattern, ASTParseError>{
     switch ast{
     case .atom(let string):
         return convertAtom(string)
     case .list(let ASTs):
         switch ASTs.count{
         case 2:
-            return .callExpr(ASTs[0], ASTs[1])
-    
+            return .success(.callExpr(ASTs[0], ASTs[1])
+)
         case 3:
             let opExpr = ASTs[0]
             let secondArgs = ASTs[1]
@@ -56,14 +64,16 @@ func convertToPatterns(_ ast: AST) -> ASTPattern{
                                 processedNames.append(n)
                             }
                             else{
-                                return .failed(ast, "lambda args misformated")
+                                return .failure(.misformated("lambda args", ast))
                             }
                         }
-                        return .lambdaExpr(LambdaExpr(names: processedNames, expr: thirdArgs))
+                        return  LambdaExpr(names: processedNames, expr: thirdArgs)
+                                >>> {.lambdaExpr($0)}
+                                >>> {.success($0)}
                         
                     }
                     else{
-                        return .failed(ast, "lambda expr misformated")
+                        return .failure(.misformated("lambda args not list", ast))
                     }
                     
                     
@@ -75,36 +85,36 @@ func convertToPatterns(_ ast: AST) -> ASTPattern{
                         
                         for assign in assigns{
                             guard case .list(let dict) = assign,
-                                       dict.count == 2 else {
-                                return .failed(ast, "let assigned values is not in proper format")
+                                  dict.count == 2 else {
+                                return  .failure(.misformated("let assigned value", ast))
                             }
                             
                             guard case .atom(let name) = dict[0] else{
-                                return .failed(ast, "name in let expression is not single symbol")
+                                return .failure(.misformated("name in let expression is not single symbol", ast))
                             }
-                        
+                            
                             let value = dict[1]
                             assignedDict.append((name, value))
                         }
-                        return .letExpr(assignedDict, thirdArgs)
+                        return .letExpr(assignedDict, thirdArgs) >>> {.success($0)}
                     }
                     else{
-                        return .failed(ast, "second args in let expression is not in proper format")
+                        return .failure(.misformated("second args in let expression", ast))
                     }
                     
                    
                 default:
-                    return .operatorExpr(str, secondArgs, thirdArgs)
+                        return .operatorExpr(str, secondArgs, thirdArgs) >>> {.success($0)}
                 }
             }
             else{
-                return .failed(ast, "unknown expression with three args")
+                return  .failure(.unknownExpression(ast))
             }
                 
             
             
         default:
-            return .failed(ast, "unknown expression")
+            return .failure(.unknownExpression(ast))
         }
     }
 }
