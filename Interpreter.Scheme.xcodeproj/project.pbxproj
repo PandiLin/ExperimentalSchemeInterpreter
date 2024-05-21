@@ -135,8 +135,7 @@
 		18A373882BF6B87900D25657 /* Interpreter.Scheme */ = {
 			isa = PBXGroup;
 			children = (
-				18A373D52BFBE01D00D25657 /* Definition */,
-				18A373D32BFBDFFD00D25657 /* Parser.swift */,
+				18A373DF2BFC278600D25657 /* Models */,
 				18A373C32BFB89BF00D25657 /* Helper */,
 				18A373892BF6B87900D25657 /* Interpreter_SchemeApp.swift */,
 				18A3738B2BF6B87900D25657 /* ContentView.swift */,
@@ -196,13 +195,22 @@
 		18A373D52BFBE01D00D25657 /* Definition */ = {
 			isa = PBXGroup;
 			children = (
-				18A373DA2BFBE31800D25657 /* Interpreter.swift */,
 				18A373DD2BFC0F8900D25657 /* ASTPattern.swift */,
 				18A373D62BFBE02C00D25657 /* AST.swift */,
 				18A373D82BFBE0C000D25657 /* Env.swift */,
 				18A373DC2BFBE60E00D25657 /* ExtendLambda.playground */,
 			);
 			path = Definition;
+			sourceTree = "<group>";
+		};
+		18A373DF2BFC278600D25657 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				18A373D52BFBE01D00D25657 /* Definition */,
+				18A373DA2BFBE31800D25657 /* Interpreter.swift */,
+				18A373D32BFBDFFD00D25657 /* Parser.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -96,7 +96,7 @@ func eval(_ expr : ASTPattern, env: Env) -> Result<Any, EvalError>{
             return .failure(.failedToCalArgsInOpExpr)
         }
         
-    case .failed(let ast, let reason):
+    case .failed(_, let reason):
         return .failure(.failedToParse(reason))
     }
 }

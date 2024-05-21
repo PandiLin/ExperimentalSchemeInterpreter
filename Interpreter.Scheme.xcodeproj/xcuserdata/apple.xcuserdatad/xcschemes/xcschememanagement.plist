@@ -9,9 +9,16 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 		<key>ExtendLambda (Playground) 2.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>ExtendLambda (Playground) 3.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -23,7 +30,7 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 		<key>Interpreter (Playground) 1.xcscheme</key>
 		<dict>

@@ -8,10 +8,6 @@
 import Foundation
 
 
-struct LetExprBinds{
-    var LetEntity: [(String, AST)]
-}
-
 struct LambdaExpr{
     var names: [String]
     var expr: AST
@@ -60,7 +56,7 @@ func convertToPatterns(_ ast: AST) -> ASTPattern{
                                 processedNames.append(n)
                             }
                             else{
-                                return .failed(ast, "lambda args misFormated")
+                                return .failed(ast, "lambda args misformated")
                             }
                         }
                         return .lambdaExpr(LambdaExpr(names: processedNames, expr: thirdArgs))

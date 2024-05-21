@@ -8,11 +8,6 @@
 import SwiftUI
 
 class InterpreterViewModel: ObservableObject{
-    init(){
-        // Example usage
-  
-    }
-    
     func eval(_ str: String){
         if let ast : AST = tokenize(str) >>> parseTokens(_:){
             let result = convertToPatterns(ast) >>>
@@ -28,8 +23,6 @@ class InterpreterViewModel: ObservableObject{
         else{
             print("unable to convert string to AST, zero result discovered")
         }
-        
-  
     }
 }
 
